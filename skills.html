@@ -1,0 +1,783 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>인기 Claude Skills 큐레이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400;9..144,1,500&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --ground: #F7F5F0;
+    --panel: #FFFFFF;
+    --panel-2: #EFECE3;
+    --ink: #16182E;
+    --ink-2: #3E4260;
+    --muted: #6F7288;
+    --line: rgba(22, 24, 46, 0.11);
+    --line-strong: rgba(22, 24, 46, 0.22);
+    --accent: #252A5A;
+    --accent-2: #4451A5;
+    --accent-soft: rgba(37, 42, 90, 0.09);
+    --accent-tint: #E4E5F3;
+    --spice: #D66B2A;
+    --spice-soft: rgba(214, 107, 42, 0.13);
+    --sage: #5F8467;
+    --sage-soft: rgba(95, 132, 103, 0.12);
+    --rust: #A64637;
+    --rust-soft: rgba(166, 70, 55, 0.10);
+    --serif-kr: "Noto Serif KR", "Fraunces", ui-serif, Georgia, serif;
+    --serif-en: "Fraunces", "Noto Serif KR", ui-serif, Georgia, serif;
+    --sans: "Noto Sans KR", "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14162A;
+      --panel: #1D1F38;
+      --panel-2: #262842;
+      --ink: #ECEBF3;
+      --ink-2: #C5C6DA;
+      --muted: #8B8FA8;
+      --line: rgba(236, 235, 243, 0.13);
+      --line-strong: rgba(236, 235, 243, 0.26);
+      --accent: #8B94D8;
+      --accent-2: #A9B0E4;
+      --accent-soft: rgba(139, 148, 216, 0.15);
+      --accent-tint: #29304F;
+      --spice: #E68B54;
+      --spice-soft: rgba(230, 139, 84, 0.16);
+      --sage: #8AB593;
+      --sage-soft: rgba(138, 181, 147, 0.14);
+      --rust: #C97565;
+      --rust-soft: rgba(201, 117, 101, 0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14162A;
+    --panel: #1D1F38;
+    --panel-2: #262842;
+    --ink: #ECEBF3;
+    --ink-2: #C5C6DA;
+    --muted: #8B8FA8;
+    --line: rgba(236, 235, 243, 0.13);
+    --line-strong: rgba(236, 235, 243, 0.26);
+    --accent: #8B94D8;
+    --accent-2: #A9B0E4;
+    --accent-soft: rgba(139, 148, 216, 0.15);
+    --accent-tint: #29304F;
+    --spice: #E68B54;
+    --spice-soft: rgba(230, 139, 84, 0.16);
+    --sage: #8AB593;
+    --sage-soft: rgba(138, 181, 147, 0.14);
+    --rust: #C97565;
+    --rust-soft: rgba(201, 117, 101, 0.14);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+  .page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 44px 40px 80px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .eyebrow::before {
+    content: ""; width: 22px; height: 1px; background: var(--accent);
+  }
+  h1 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: clamp(32px, 4.2vw, 44px);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .sub {
+    color: var(--muted);
+    max-width: 64ch;
+    font-size: 13.5px;
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.75;
+    white-space: nowrap;
+  }
+  .stamp b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- KPI strip ---------- */
+  .strip {
+    margin: 26px 0 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .kpi {
+    background: var(--panel);
+    padding: 18px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 108px;
+  }
+  .kpi .lbl {
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: var(--mono);
+  }
+  .kpi .val {
+    font-family: var(--serif-en);
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: 2px;
+  }
+  .kpi .val small {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 6px;
+  }
+  .kpi .note {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-top: auto;
+  }
+  .kpi.accent .val { color: var(--accent); }
+  .kpi.spice .val  { color: var(--spice); }
+
+  /* ---------- Section title ---------- */
+  section { margin-bottom: 40px; }
+  section h2 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  section h2 .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  section h2 + .lede {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 13.5px;
+    max-width: 64ch;
+  }
+
+  /* ---------- Top 3 hero ---------- */
+  .top3 {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    gap: 20px;
+  }
+  .hero {
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    padding: 24px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    min-height: 260px;
+  }
+  .hero .rank {
+    position: absolute;
+    top: -1px; left: -1px;
+    background: var(--accent);
+    color: var(--ground);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    padding: 5px 12px;
+    text-transform: uppercase;
+  }
+  .hero.a .rank { background: var(--spice); }
+  .hero.a { border-color: var(--spice); border-width: 1.5px; }
+  .hero .name {
+    font-family: var(--serif-kr);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 12px 0 0;
+    letter-spacing: -0.01em;
+  }
+  .hero .name em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero.a .name em { color: var(--spice); }
+  .hero .tagline {
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .hero ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+  .hero ul li {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 8px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .hero ul li::before {
+    content: "→";
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .hero.a ul li::before { color: var(--spice); }
+  .hero .footline {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .hero .footline b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* ---------- ROI bar chart ---------- */
+  .roi {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 24px 26px 22px;
+  }
+  .roi-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 60px;
+    row-gap: 12px;
+    column-gap: 16px;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .roi-name {
+    font-family: var(--sans);
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .roi-name small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .track {
+    height: 22px;
+    background: var(--panel-2);
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+  .fill.hi { background: linear-gradient(90deg, var(--spice), #E4915C); }
+  .track .end {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .roi-hrs {
+    font-family: var(--serif-en);
+    font-size: 18px;
+    color: var(--ink);
+    text-align: right;
+    letter-spacing: -0.01em;
+  }
+  .roi-hrs small {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .roi-cap {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- Category matrix ---------- */
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .cat {
+    background: var(--panel);
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 200px;
+  }
+  .cat .cat-tag {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .cat .cat-tag .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  }
+  .cat.a .cat-tag { color: var(--spice); }
+  .cat.a .cat-tag .dot { background: var(--spice); }
+  .cat.b .cat-tag { color: var(--sage); }
+  .cat.b .cat-tag .dot { background: var(--sage); }
+  .cat.c .cat-tag { color: var(--rust); }
+  .cat.c .cat-tag .dot { background: var(--rust); }
+  .cat h3 {
+    font-family: var(--serif-kr);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 2px 0 0;
+    letter-spacing: -0.01em;
+  }
+  .cat .why {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .cat .skills {
+    list-style: none;
+    padding: 0;
+    margin: auto 0 0;
+    display: grid;
+    gap: 8px;
+  }
+  .cat .skills li {
+    padding: 10px 12px;
+    background: var(--panel-2);
+    border-left: 2px solid var(--accent);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .cat.a .skills li { border-left-color: var(--spice); }
+  .cat.b .skills li { border-left-color: var(--sage); }
+  .cat.c .skills li { border-left-color: var(--rust); }
+  .cat .skills li b {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .cat .skills li b code {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: transparent;
+    color: var(--accent);
+    margin-left: 4px;
+    letter-spacing: -0.01em;
+  }
+  .cat.a .skills li b code { color: var(--spice); }
+  .cat.b .skills li b code { color: var(--sage); }
+  .cat.c .skills li b code { color: var(--rust); }
+
+  /* ---------- Adoption guide ---------- */
+  .adopt {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 22px 22px 20px;
+    position: relative;
+  }
+  .step .idx {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .step h4 {
+    margin: 6px 0 8px;
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .step p {
+    margin: 0 0 10px;
+    color: var(--ink-2);
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .step code.cmd {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: var(--panel-2);
+    padding: 8px 10px;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* ---------- Footer ---------- */
+  .foot {
+    margin-top: 52px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+  .foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; max-width: 620px; }
+  .foot a { color: var(--ink-2); text-decoration: none; border-bottom: 1px dotted var(--line-strong); }
+
+  @media (max-width: 940px) {
+    .page { padding: 32px 22px 60px; }
+    .strip { grid-template-columns: repeat(2, 1fr); }
+    .top3 { grid-template-columns: 1fr; }
+    .cats { grid-template-columns: 1fr; }
+    .adopt { grid-template-columns: 1fr; }
+    .roi-grid { grid-template-columns: 1fr; row-gap: 6px; }
+    .roi-grid .track { height: 14px; }
+    .roi-hrs { text-align: left; }
+    .masthead { grid-template-columns: 1fr; }
+    .stamp { text-align: left; white-space: normal; }
+  }
+</style></head><body><div class="page">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">Claude Skills · 2026 Curation Brief</div>
+      <h1>사람들이 실제로 쓰는 <em>Claude Skills</em>와<br>그 스킬들이 이기는 이유</h1>
+      <p class="sub">2026년 커뮤니티가 광범위하게 채택한 상위 스킬을 사용 규모·주간 절감 시간·문제 해결력의 세 축으로 정리했다. 랭킹은 GitHub 스타·주간 설치·실증 리뷰 기반이며, 순서는 도입 우선순위에 맞춰 재배열했다.</p>
+    </div>
+    <div class="stamp">
+      브리핑 · <b>Skill Radar</b><br>
+      작성일 · <b>2026 · 08</b><br>
+      범위 · <b>Claude Code · Skills</b>
+    </div>
+  </header>
+
+  <!-- KPI STRIP -->
+  <div class="strip" role="group" aria-label="핵심 지표">
+    <div class="kpi accent">
+      <div class="lbl">Superpowers · Stars</div>
+      <div class="val">243K<small>+</small></div>
+      <div class="note">obra/superpowers · 커뮤니티 최대 스킬 프레임워크</div>
+    </div>
+    <div class="kpi accent">
+      <div class="lbl">Anthropic 공식 · Stars</div>
+      <div class="val">157K<small>+</small></div>
+      <div class="note">skill-creator · 문서 스킬 세트(pdf·docx·xlsx·pptx)</div>
+    </div>
+    <div class="kpi spice">
+      <div class="lbl">주간 절감 · TOP</div>
+      <div class="val">3.0<small>hrs/wk</small></div>
+      <div class="note">TDD 스킬 · 개발자 1인당 절감시간(실증 리뷰 평균)</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">주간 설치 · Frontend</div>
+      <div class="val">110K<small>+</small></div>
+      <div class="note">frontend-design 스킬 · UI 작업 표준으로 자리잡음</div>
+    </div>
+  </div>
+
+  <!-- TOP 3 HERO -->
+  <section>
+    <h2><span class="num">01</span> TOP 3 하이라이트</h2>
+    <p class="lede">규모(Superpowers) · 미학(Frontend Design) · 확장(Skill Creator) — 서로 겹치지 않는 세 축을 대표하는 스킬. 하나만 설치하려면 첫 번째부터.</p>
+    <div class="top3">
+      <div class="hero a">
+        <div class="rank">Rank · 01</div>
+        <div class="name">Superpowers <em>· 프레임워크</em></div>
+        <div class="tagline">14개 스킬이 하나의 방법론으로 묶인 종합 개발 흐름. 코드를 쓰기 전에 브레인스토밍하고, 실패 테스트를 먼저 짜고, 2–5분 단위 태스크로 쪼개도록 강제한다.</div>
+        <ul>
+          <li>Brainstorm → Plan → TDD → Subagent 실행 → Review → Merge</li>
+          <li>테스트 없이 작성된 코드는 스킬 자체가 삭제 지시</li>
+          <li>디버깅도 "추측 금지, 근본원인 4단계" 로 규율</li>
+          <li>Anthropic 공식 마켓플레이스에도 등재됨</li>
+        </ul>
+        <div class="footline">
+          <span>⭐ <b>243K+</b></span>
+          <span>obra/superpowers</span>
+          <span>ROI · <b>합산 ≈ 8 hrs/wk</b></span>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="rank">Rank · 02</div>
+        <div class="name">Frontend Design <em>· UI 미학</em></div>
+        <div class="tagline">"AI가 만든 티 나는 UI"를 막는 것이 목적. Inter 남발·보라 그라디언트·`rounded-lg` 반복 같은 클리셰를 스킬 프롬프트 단에서 차단한다.</div>
+        <ul>
+          <li>타이포·팔레트·레이아웃을 주제에 맞춰 매번 재설계</li>
+          <li>라이트/다크 두 테마 대응을 기본 규범으로 명령</li>
+          <li>편집자적 판단이 필요한 페이지에서 특히 강함</li>
+        </ul>
+        <div class="footline">
+          <span>주간 설치 <b>110K+</b></span>
+          <span>ROI ≈ <b>1 hr/wk</b></span>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="rank">Rank · 03</div>
+        <div class="name">Skill Creator <em>· 메타 스킬</em></div>
+        <div class="tagline">스킬을 만드는 스킬. 반복되는 팀 워크플로우를 재사용 가능한 스킬로 굳혀 두면, 매번 재현 안 되는 프롬프트 튜닝에서 해방된다.</div>
+        <ul>
+          <li>SKILL.md 골격·트리거 문구·예시를 자동 생성</li>
+          <li>Anthropic 공식 저장소 소속으로 유지보수 안정</li>
+          <li>사내 규정·품질 게이트를 스킬로 코드화 가능</li>
+        </ul>
+        <div class="footline">
+          <span>Anthropic <b>공식</b></span>
+          <span>anthropics/skills</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI RANKING -->
+  <section>
+    <h2><span class="num">02</span> 주간 절감시간 · 실증 랭킹</h2>
+    <p class="lede">개발자 1인당 절감시간(2026년 실증 리뷰 평균). 상위 4개는 모두 개발 프로세스 스킬 — 코드 품질보다 <b>일하는 방법</b>을 잡을 때 ROI가 훨씬 크다는 뜻.</p>
+    <div class="roi">
+      <div class="roi-grid" role="list">
+        <div class="roi-name">Test-Driven Development <small>SUPERPOWERS</small></div>
+        <div class="track"><div class="fill hi" style="width: 100%"><span class="end">RED · GREEN · REFACTOR</span></div></div>
+        <div class="roi-hrs">3.0<small>HRS / WK</small></div>
+
+        <div class="roi-name">Systematic Debugging <small>SUPERPOWERS</small></div>
+        <div class="track"><div class="fill hi" style="width: 83%"><span class="end">4-PHASE ROOT CAUSE</span></div></div>
+        <div class="roi-hrs">2.5<small>HRS / WK</small></div>
+
+        <div class="roi-name">Code Reviewer <small>REQUESTING-CODE-REVIEW</small></div>
+        <div class="track"><div class="fill" style="width: 67%"><span class="end">DIFF-BOUNDED</span></div></div>
+        <div class="roi-hrs">2.0<small>HRS / WK</small></div>
+
+        <div class="roi-name">Brainstorming <small>SUPERPOWERS</small></div>
+        <div class="track"><div class="fill" style="width: 50%"><span class="end">INTENT-FIRST</span></div></div>
+        <div class="roi-hrs">1.5<small>HRS / WK</small></div>
+
+        <div class="roi-name">Frontend Design <small>UI · TYPOGRAPHY</small></div>
+        <div class="track"><div class="fill" style="width: 33%"><span class="end">ANTI-SLOP</span></div></div>
+        <div class="roi-hrs">1.0<small>HRS / WK</small></div>
+
+        <div class="roi-name">Caveman <small>TOKEN COMPRESSION</small></div>
+        <div class="track"><div class="fill" style="width: 22%"><span class="end">-65% 토큰</span></div></div>
+        <div class="roi-hrs">0.7<small>HRS / WK</small></div>
+      </div>
+      <div class="roi-cap">Source · 2026 리뷰 종합 (ayautomate, firecrawl, designrevision, composio) · 값은 리뷰들의 중앙값</div>
+    </div>
+  </section>
+
+  <!-- CATEGORY MATRIX -->
+  <section>
+    <h2><span class="num">03</span> 카테고리별 스킬 매트릭스</h2>
+    <p class="lede">문제 유형별로 어떤 스킬을 켜면 되는지 한눈에 짚기 위한 6구획. 각 셀은 카테고리의 대표 스킬 2–3개와 그 강점을 요약.</p>
+    <div class="cats">
+
+      <div class="cat a">
+        <div class="cat-tag"><span class="dot"></span>Process · 개발 리듬</div>
+        <h3>일하는 방법을 잡는 스킬</h3>
+        <p class="why">ROI 최상위. 결과물 품질보다 "다음 한 걸음을 어떻게 정할지"를 규율화한다.</p>
+        <ul class="skills">
+          <li><b>Test-Driven Development <code>/tdd</code></b>실패 테스트가 먼저 존재해야만 구현이 가능. 코드 커밋 게이트로 작동한다.</li>
+          <li><b>Brainstorming <code>/brainstorm</code></b>기능 착수 전에 의도·요구·설계를 명확히 하는 인터뷰 루프. 스코프 드리프트 예방.</li>
+          <li><b>Writing Plans <code>/write-plan</code></b>2–5분 단위 태스크로 쪼갠 실행계획을 산출. 서브에이전트 실행과 궁합.</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <div class="cat-tag"><span class="dot"></span>Quality · 진단 · 리뷰</div>
+        <h3>버그와 리뷰 미스를 줄이는 스킬</h3>
+        <p class="why">기능이 붙은 뒤 문제를 잡는 게 아니라 문제가 커지기 전에 재현하고 리뷰한다.</p>
+        <ul class="skills">
+          <li><b>Systematic Debugging <code>/debug</code></b>4단계 근본원인 프로토콜. 추측 기반 수정 금지 규칙이 명시적으로 걸림.</li>
+          <li><b>Code Review <code>/code-review</code></b>diff에만 집중, 발견은 카테고리+파일·라인으로 리포트. 노이즈가 적다.</li>
+          <li><b>Security Review <code>/security-review</code></b>OWASP·크리덴셜·프롬프트 인젝션 관점의 감사 체크리스트.</li>
+        </ul>
+      </div>
+
+      <div class="cat b">
+        <div class="cat-tag"><span class="dot"></span>Design · UI · 문서 시각화</div>
+        <h3>보이는 결과물의 격을 올리는 스킬</h3>
+        <p class="why">"AI가 만든 티"를 없애고 판단이 담긴 시각 결과물을 만든다. 발표·랜딩·리포트에 유효.</p>
+        <ul class="skills">
+          <li><b>Frontend Design <code>/frontend-design</code></b>주제에 맞는 팔레트·타이포·레이아웃을 매번 새로 설계. 클리셰 차단.</li>
+          <li><b>Artifact Design + Diagramming</b>Claude Artifact를 한 장 페이지·인포그래픽 수준으로 끌어올리는 프리로드.</li>
+          <li><b>DataViz</b>차트·대시보드 컴포넌트에서 색·주석·엔드포인트 강조까지 규범화.</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <div class="cat-tag"><span class="dot"></span>Docs · 파일 산출</div>
+        <h3>실제 파일을 만드는 스킬</h3>
+        <p class="why">본문 설명이 아닌 열리는 파일. 리포트·계약서·발표자료 자동화 파이프라인의 뼈대.</p>
+        <ul class="skills">
+          <li><b>PDF · DOCX · XLSX · PPTX</b>Anthropic 공식. 추출·편집·서식·수식·차트까지 파이썬으로 처리.</li>
+          <li><b>Fill Form / Sign / Annotate</b>계약·양식 자동화. PDF 뷰어 스킬과 결합해 흐름형 작업.</li>
+          <li><b>Make PDF</b>마크다운을 인쇄 품질 PDF로. 표지·목차·워터마크·페이지 번호.</li>
+        </ul>
+      </div>
+
+      <div class="cat c">
+        <div class="cat-tag"><span class="dot"></span>Ops · 세션 · 토큰</div>
+        <h3>긴 작업을 지속가능하게 만드는 스킬</h3>
+        <p class="why">120K 토큰 근처에서 성능이 급락하는 문제를 해결한다. 인계·요약·압축.</p>
+        <ul class="skills">
+          <li><b>Handoff</b>구조화된 인수인계 문서 생성. 서브에이전트/새 세션에 그대로 넘길 수 있음.</li>
+          <li><b>Caveman</b>불필요 서술을 제거해 토큰 65% 절감. CLAUDE.md도 -46%까지.</li>
+          <li><b>Executing Plans</b>계획서를 세션 밖에서 별도 에이전트가 이어받아 실행.</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <div class="cat-tag"><span class="dot"></span>Data · 웹 · 확장</div>
+        <h3>외부 세계와 연결하는 스킬</h3>
+        <p class="why">웹·MCP·크롤링. Claude의 손을 프로젝트 밖 데이터까지 확장한다.</p>
+        <ul class="skills">
+          <li><b>Firecrawl</b>JS 렌더 사이트 포함 80%+ 콘텐츠 회수율. 결과를 파일로 저장해 컨텍스트 보호.</li>
+          <li><b>MCP Builder</b>커스텀 Model Context Protocol 서버를 스킬 지시대로 스캐폴딩.</li>
+          <li><b>Grill Me</b>계획의 가정·의존을 집요하게 캐물어 사전 정합성을 확보.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ADOPTION GUIDE -->
+  <section>
+    <h2><span class="num">04</span> 도입 3단계 · 개인 · 팀 관점</h2>
+    <p class="lede">한꺼번에 다 켜면 컨텍스트 예산이 잠식된다. 아래 순서로 3주에 걸쳐 도입해 보고, ROI를 각자 확인한 뒤 팀 표준으로 굳히는 것을 권장.</p>
+    <div class="adopt">
+      <div class="step">
+        <div class="idx">i.</div>
+        <h4>Week 1 · 프로세스 축 켜기</h4>
+        <p>가장 큰 ROI가 나오는 프로세스 스킬을 먼저 세팅. "코드를 어떻게 짤지"가 아니라 "코드를 시작하기 전에 무엇을 하는지"를 바꾼다.</p>
+        <code class="cmd">/plugin marketplace add obra/superpowers-marketplace</code>
+        <code class="cmd">/plugin install superpowers@superpowers-marketplace</code>
+      </div>
+      <div class="step">
+        <div class="idx">ii.</div>
+        <h4>Week 2 · 시각·문서 축 켜기</h4>
+        <p>대외 산출물이 있는 사람은 Frontend Design과 문서 스킬을. Anthropic 공식 저장소에서 필요한 것만 선택 설치한다.</p>
+        <code class="cmd">/skill anthropic-skills:pdf</code>
+        <code class="cmd">/skill artifact-design</code>
+      </div>
+      <div class="step">
+        <div class="idx">iii.</div>
+        <h4>Week 3 · 팀 표준으로 굳히기</h4>
+        <p>반복 결정은 Skill Creator로 사내 스킬화. 팀 CLAUDE.md에 auto-load 기준을 명시해 세션마다 재현되도록.</p>
+        <code class="cmd">/skill anthropic-skills:skill-creator</code>
+        <code class="cmd">.claude/settings.json → enabledPlugins</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <footer class="foot">
+    <div>Sources · 2026 커뮤니티 리뷰·GitHub 지표·공식 마켓플레이스 데이터를 종합</div>
+    <ul>
+      <li><a href="https://www.firecrawl.dev/blog/best-claude-code-skills">Best Claude Code Skills to Try in 2026 · Firecrawl</a></li>
+      <li><a href="https://github.com/karanb192/awesome-claude-skills">Awesome Claude Skills · karanb192</a></li>
+      <li><a href="https://github.com/travisvn/awesome-claude-skills">Awesome Claude Skills · travisvn</a></li>
+      <li><a href="https://www.ayautomate.com/blog/best-claude-code-skills">10 Best Claude Code Skills 2026 · ayautomate</a></li>
+      <li><a href="https://composio.dev/content/top-claude-skills">Top 10 Claude Code Skills · Composio</a></li>
+      <li><a href="https://designrevision.com/blog/best-claude-code-skills">Best Claude Code Skills 2026 · Design Revision</a></li>
+    </ul>
+  </footer>
+
+</div>
+</body></html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-택소노미 대응 현황</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --ground: #FAF7F2;
+    --panel: #FFFFFF;
+    --panel-warm: #F3EEE3;
+    --ink: #1A2620;
+    --ink-2: #3B4741;
+    --muted: #6E766F;
+    --line: rgba(26, 38, 32, 0.12);
+    --line-strong: rgba(26, 38, 32, 0.22);
+    --accent: #2E5D42;
+    --accent-2: #4E7F5C;
+    --accent-soft: rgba(46, 93, 66, 0.09);
+    --accent-tint: #E5EFE4;
+    --amber: #B47630;
+    --amber-soft: rgba(180, 118, 48, 0.11);
+    --rust: #9C4636;
+    --rust-soft: rgba(156, 70, 54, 0.10);
+    --serif-kr: "Noto Serif KR", "Fraunces", ui-serif, Georgia, serif;
+    --serif-en: "Fraunces", "Noto Serif KR", ui-serif, Georgia, serif;
+    --sans: "Noto Sans KR", "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #131715;
+      --panel: #1B211D;
+      --panel-warm: #232925;
+      --ink: #ECE9E0;
+      --ink-2: #C4C6BE;
+      --muted: #8B9188;
+      --line: rgba(236, 233, 224, 0.13);
+      --line-strong: rgba(236, 233, 224, 0.24);
+      --accent: #7CB08C;
+      --accent-2: #A5CBAF;
+      --accent-soft: rgba(124, 176, 140, 0.13);
+      --accent-tint: #22322A;
+      --amber: #D69B58;
+      --amber-soft: rgba(214, 155, 88, 0.14);
+      --rust: #C87866;
+      --rust-soft: rgba(200, 120, 102, 0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #131715;
+    --panel: #1B211D;
+    --panel-warm: #232925;
+    --ink: #ECE9E0;
+    --ink-2: #C4C6BE;
+    --muted: #8B9188;
+    --line: rgba(236, 233, 224, 0.13);
+    --line-strong: rgba(236, 233, 224, 0.24);
+    --accent: #7CB08C;
+    --accent-2: #A5CBAF;
+    --accent-soft: rgba(124, 176, 140, 0.13);
+    --accent-tint: #22322A;
+    --amber: #D69B58;
+    --amber-soft: rgba(214, 155, 88, 0.14);
+    --rust: #C87866;
+    --rust-soft: rgba(200, 120, 102, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 40px 96px;
+  }
+
+  /* -------- Masthead -------- */
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: clamp(34px, 4.4vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .sub {
+    color: var(--muted);
+    max-width: 62ch;
+    font-size: 14px;
+  }
+  .stamp {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.7;
+    white-space: nowrap;
+  }
+  .stamp b { color: var(--ink); font-weight: 500; }
+
+  /* -------- Summary strip -------- */
+  .strip {
+    margin: 26px 0 38px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .kpi {
+    background: var(--panel);
+    padding: 20px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 118px;
+  }
+  .kpi .lbl {
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: var(--mono);
+  }
+  .kpi .val {
+    font-family: var(--serif-en);
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .kpi .val small {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 6px;
+    letter-spacing: 0;
+  }
+  .kpi .note {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-top: auto;
+  }
+  .kpi.accent .val { color: var(--accent); }
+
+  /* -------- Grid -------- */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 28px;
+    margin-bottom: 34px;
+  }
+  section h2 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  section h2 .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  section h2 + .lede {
+    color: var(--muted);
+    margin: 0 0 20px;
+    font-size: 13.5px;
+    max-width: 60ch;
+  }
+
+  /* -------- Featured SKT card -------- */
+  .featured {
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 28px 30px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+  .featured::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+  }
+  .featured-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+  .featured-title {
+    font-family: var(--serif-kr);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .featured-title em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .featured-sub { font-size: 13px; color: var(--muted); }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--accent-tint);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .status-pill .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .kpi-cell {
+    padding: 18px 22px 20px;
+    border-right: 1px solid var(--line);
+  }
+  .kpi-cell:last-child { border-right: 0; }
+  .kpi-cell .k-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .kpi-cell .k-amount {
+    font-family: var(--serif-en);
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .kpi-cell .k-amount .unit {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+  .kpi-cell .k-ratio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .bar {
+    flex: 1;
+    height: 4px;
+    background: var(--accent-soft);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar > i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--accent);
+    display: block;
+  }
+
+  .featured-body {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .featured-body p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  /* -------- Activity breakdown table -------- */
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 4px;
+    border: 1px solid var(--line);
+  }
+  table.act {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--panel);
+  }
+  table.act th, table.act td {
+    padding: 11px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  table.act thead th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    background: var(--panel-warm);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  table.act tbody tr:last-child td { border-bottom: 0; }
+  table.act td.num {
+    font-family: var(--mono);
+    text-align: right;
+    color: var(--ink-2);
+  }
+  table.act td.num.zero { color: var(--muted); }
+  table.act .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+  .tag.fit  { background: var(--accent-tint); color: var(--accent); }
+  .tag.warn { background: var(--amber-soft); color: var(--amber); }
+  .tag.gap  { background: var(--rust-soft);  color: var(--rust); }
+
+  /* -------- Right column: overview -------- */
+  .aside .box {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 22px 22px;
+    margin-bottom: 22px;
+  }
+  .aside .box.dark {
+    background: var(--panel-warm);
+  }
+  .def-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 10px 18px;
+    font-size: 13px;
+    margin: 4px 0 0;
+  }
+  .def-list dt {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .def-list dd {
+    margin: 0;
+    color: var(--ink);
+  }
+  .criteria {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    display: grid;
+    gap: 12px;
+  }
+  .criteria li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    font-size: 13px;
+  }
+  .criteria .n {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 18px;
+    line-height: 1.1;
+  }
+  .criteria b {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .criteria span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  /* -------- Spectrum -------- */
+  .spectrum {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .lane {
+    background: var(--panel);
+    padding: 20px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 240px;
+  }
+  .lane .step {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .lane h3 {
+    font-family: var(--serif-kr);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .lane .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .lane p {
+    color: var(--ink-2);
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 4px 0 0;
+  }
+  .lane .co {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .co .chip {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-2);
+    padding: 3px 8px;
+    background: var(--panel-warm);
+    border: 1px solid var(--line);
+  }
+  .lane.lead .step,
+  .lane.lead h3,
+  .lane.lead .meta { color: var(--accent); }
+  .lane.lead { background: linear-gradient(180deg, var(--accent-tint), var(--panel) 55%); }
+  .lane.gap .meta { color: var(--rust); }
+
+  /* -------- Timeline -------- */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    margin-top: 12px;
+    position: relative;
+    padding-top: 26px;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--line-strong);
+  }
+  .tl-node {
+    position: relative;
+    padding: 0 12px 4px 0;
+  }
+  .tl-node::before {
+    content: "";
+    position: absolute;
+    top: -22px;
+    left: 0;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 1.5px solid var(--accent);
+  }
+  .tl-node.done::before { background: var(--accent); }
+  .tl-node.now::before {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .tl-node .date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .tl-node .ev {
+    font-size: 12.5px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .tl-node.now .ev b {
+    background: var(--accent-tint);
+    padding: 1px 4px;
+    box-shadow: inset 0 -6px 0 var(--accent-tint);
+  }
+
+  /* -------- Implications -------- */
+  .implications {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-top: 18px;
+  }
+  .imp {
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    position: relative;
+  }
+  .imp .idx {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 22px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .imp h4 {
+    margin: 0 0 6px;
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .imp p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* -------- Footer -------- */
+  .foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+  .foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; max-width: 620px; }
+  .foot a { color: var(--ink-2); text-decoration: none; border-bottom: 1px dotted var(--line-strong); }
+
+  /* Section spacing */
+  section { margin-bottom: 44px; }
+  section:last-of-type { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .page { padding: 32px 22px 72px; }
+    .strip, .spectrum { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: 1fr; }
+    .kpi-row { grid-template-columns: 1fr; }
+    .kpi-cell { border-right: 0; border-bottom: 1px solid var(--line); }
+    .kpi-cell:last-child { border-bottom: 0; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .timeline::before { display: none; }
+    .tl-node { padding: 0; border-left: 1.5px solid var(--accent); padding-left: 14px; margin-bottom: 14px; }
+    .tl-node::before { top: 0; left: -6px; }
+    .implications { grid-template-columns: 1fr; }
+    .masthead { grid-template-columns: 1fr; }
+    .stamp { text-align: left; white-space: normal; }
+  }
+</style></head><body><div class="page">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div>
+      <div class="eyebrow">Korea Green Taxonomy · Corporate Response Brief</div>
+      <h1>K-택소노미 대응 지형과<br><em>SK텔레콤</em>의 위치</h1>
+      <p class="sub">2021년 도입된 한국형 녹색분류체계는 아직 자발적 지침이지만, 2026년 개정 시행과 ESG 공시 의무화가 겹치며 대응 준비의 실질적 격차가 드러나기 시작했다. 국내 최초 별도 택소노미 보고서를 발간해 온 SK텔레콤의 실적을 기준선으로 삼아, 개정·금융·공시 세 축의 현재 상태를 정리한다.</p>
+    </div>
+    <div class="stamp">
+      브리핑 · <b>ESG 전략</b><br>
+      작성일 · <b>2026 · 08</b><br>
+      대상 FY · <b>FY2023 실적</b>
+    </div>
+  </header>
+
+  <!-- SUMMARY STRIP -->
+  <div class="strip" role="group" aria-label="핵심 지표">
+    <div class="kpi">
+      <div class="lbl">개정 경제활동 수</div>
+      <div class="val">100<small>개 (기존 84)</small></div>
+      <div class="note">2025.12 개정, 2026.01 시행. 히트펌프·바이오항공유·청정메탄올 등 저탄소 기술 추가.</div>
+    </div>
+    <div class="kpi accent">
+      <div class="lbl">'24 한국형 녹색채권</div>
+      <div class="val">5.17<small>조원</small></div>
+      <div class="note">이차보전 77억원으로 유도. KB국민 1,200억, 우리 1,500억 등 은행권 주도.</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">국내 최초 별도 공시</div>
+      <div class="val">SKT<small>· 2023~</small></div>
+      <div class="note">EU 위임법률을 준용한 매출·CapEx·OpEx KPI를 FY2022부터 연속 산정.</div>
+    </div>
+    <div class="kpi">
+      <div class="lbl">공시 의무 시계</div>
+      <div class="val">'26<small>·1·1</small></div>
+      <div class="note">개정 K-택소노미 시행. EU CSRD·국내 ESG 공시 로드맵과 동시 진행.</div>
+    </div>
+  </div>
+
+  <!-- FEATURED: SKT -->
+  <section>
+    <h2><span class="num">01</span> SK텔레콤 실적 하이라이트 · FY2023</h2>
+    <p class="lede">국내 대기업 중 유일하게 EU 택소노미 위임법률(EU 2021/2178)을 준용해 3대 KPI를 산정·공시. 통신업 구조상 절대 비중은 낮지만, ICT 기반 에너지 관리 솔루션이 매출의 약 91%를 견인.</p>
+
+    <div class="featured">
+      <div class="featured-head">
+        <div>
+          <h3 class="featured-title">2024 SK텔레콤 <em>택소노미</em> 보고서</h3>
+          <div class="featured-sub">2024.08 발간 · FY2023 기준 · 준용 프레임 EU 2021/2178 · 10p</div>
+        </div>
+        <span class="status-pill"><span class="dot"></span>국내 최초 · 2년 연속</span>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-cell">
+          <div class="k-label">Revenue · 매출</div>
+          <div class="k-amount">24,370<span class="unit">백만 원</span></div>
+          <div class="k-ratio">
+            <span>0.194%</span>
+            <span class="bar"><i style="width: 4%"></i></span>
+          </div>
+        </div>
+        <div class="kpi-cell">
+          <div class="k-label">CapEx · 자본지출</div>
+          <div class="k-amount">7,021<span class="unit">백만 원</span></div>
+          <div class="k-ratio">
+            <span>0.354%</span>
+            <span class="bar"><i style="width: 7%"></i></span>
+          </div>
+        </div>
+        <div class="kpi-cell">
+          <div class="k-label">OpEx · 운영지출</div>
+          <div class="k-amount">7,665<span class="unit">백만 원</span></div>
+          <div class="k-ratio">
+            <span>1.058%</span>
+            <span class="bar"><i style="width: 21%"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="featured-body">
+        <p>2023년 첫 보고서에서는 사업보고서 공개 자료에 한정해 실적을 산정했지만, 2024년에는 사업부서별 세부 비용 집행 실적까지 검토해 <b>AI 기반 서비스에서 다수의 녹색경제활동을 신규 식별</b>했다. 통신 매출 규모(약 12.6조 원) 대비 적합 매출 비중은 0.2% 미만으로 낮으나, ICT 에너지 관리 솔루션 단일 활동에서만 매출 22,313백만 원이 인정되며 SKT의 K-택소노미 실적을 사실상 지탱한다.</p>
+
+        <div class="table-wrap">
+          <table class="act">
+            <thead>
+              <tr>
+                <th>K-택소노미 경제활동</th>
+                <th>매출 (백만 원)</th>
+                <th>CapEx</th>
+                <th>OpEx</th>
+                <th>판정</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1-나-(19) ICT 기반 에너지 관리 솔루션</td>
+                <td class="num">22,313</td>
+                <td class="num">902</td>
+                <td class="num">1,771</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>공통-가-(1) 혁신품목 제조 <span style="color:var(--muted)">(ITS)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">971</td>
+                <td class="num">928</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>공통-가-(2) 혁신품목 소재·부품·장비 <span style="color:var(--muted)">(AI 물류로봇)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">649</td>
+                <td class="num">757</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>1-가-(2) 감축 핵심기술 소재·부품·장비 <span style="color:var(--muted)">(UAM)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">1,864</td>
+                <td class="num">1,339</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>1-라-(3) 건축물 온실가스 감축 설비 <span style="color:var(--muted)">(사옥 냉난방)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">2,360</td>
+                <td class="num">240</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>4-가-(3) 폐기물 재활용 <span style="color:var(--muted)">(해피해빗·페케이블)</span></td>
+                <td class="num">2,056</td>
+                <td class="num zero">—</td>
+                <td class="num">1,663</td>
+                <td><span class="tag fit">적합</span></td>
+              </tr>
+              <tr>
+                <td>1-가-(6) 온실가스 감축 설비 <span style="color:var(--muted)">(통신 인프라 냉난방)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">2,520</td>
+                <td class="num">5,433</td>
+                <td><span class="tag warn">비적합·데이터</span></td>
+              </tr>
+              <tr>
+                <td>1-나-(2) 재생에너지 생산: 바이오매스 <span style="color:var(--muted)">(미얀마 쿡스토브)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">909</td>
+                <td class="num">445</td>
+                <td><span class="tag warn">비적합·데이터</span></td>
+              </tr>
+              <tr>
+                <td>2-가-(4) 기후변화 적응 교육 <span style="color:var(--muted)">(임직원 교육)</span></td>
+                <td class="num zero">—</td>
+                <td class="num">18</td>
+                <td class="num zero">—</td>
+                <td><span class="tag gap">비적합·인증</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="color:var(--muted); font-size:12px;">비적합(eligible but not aligned) 활동은 녹색경제활동 범주에는 해당하지만 인정·배제·보호기준 중 하나 이상을 충족하지 못한 활동. 통신 인프라 냉난방 교체(1-가-(6))와 바이오매스 생산은 감축량 데이터 확인 곤란, 임직원 기후 교육(2-가-(4))은 우수 환경교육 인증 미취득 사유.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW + PROCESS (2-col) -->
+  <div class="grid">
+    <section>
+      <h2><span class="num">02</span> 국내 기업 대응 스펙트럼</h2>
+      <p class="lede">공시 자발성 탓에 대다수는 아직 무대응. 실제 움직임은 세 갈래 — 별도 보고서, 지속가능경영보고서 반영, 녹색채권 발행 — 로 갈린다.</p>
+
+      <div class="spectrum">
+        <div class="lane lead">
+          <div class="step">Tier · 01 선도</div>
+          <h3>별도 택소노미 보고서</h3>
+          <div class="meta">매출·CapEx·OpEx 3대 KPI 공시</div>
+          <p>국내 유일. EU 위임법률을 준용해 KPI를 산정하고 세부 활동별 판정 근거까지 공개.</p>
+          <div class="co">
+            <span class="chip">SK텔레콤 · '23, '24</span>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="step">Tier · 02 반영</div>
+          <h3>지속가능경영보고서 통합</h3>
+          <div class="meta">이중 중대성 평가와 결합</div>
+          <p>주요 사업장 활동을 K-택소노미 기준으로 자체 평가해 보고서 챕터로 편입.</p>
+          <div class="co">
+            <span class="chip">SK아이이테크놀로지</span>
+            <span class="chip">일부 SK 계열</span>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="step">Tier · 03 금융</div>
+          <h3>한국형 녹색채권 발행</h3>
+          <div class="meta">'24년 시장 5.17조 원 규모</div>
+          <p>발행자 관점에서 K-택소노미를 적용. 조달 자금 용도가 무공해 인프라·저장장치 등.</p>
+          <div class="co">
+            <span class="chip">KB국민 1,200억</span>
+            <span class="chip">우리 1,500억</span>
+            <span class="chip">IBK · KDB</span>
+          </div>
+        </div>
+
+        <div class="lane gap">
+          <div class="step">Tier · 04 관망</div>
+          <h3>미대응 · 준비 단계</h3>
+          <div class="meta">대다수 대기업 · 통신 3사 중 2사</div>
+          <p>공시 의무가 없어 지연. 개정·EU CSRD 벨류체인 요구가 겹치는 '26년이 실질 전환점.</p>
+          <div class="co">
+            <span class="chip">KT · LGU+ 미공개</span>
+            <span class="chip">삼성·현대 검토 중</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="aside">
+      <section>
+        <h2><span class="num">03</span> K-택소노미 개요</h2>
+
+        <div class="box">
+          <dl class="def-list">
+            <dt>도입</dt><dd>2021.12 환경부 (現 기후에너지환경부) 가이드라인 발표</dd>
+            <dt>성격</dt><dd>자발적 지침 · 그린워싱 방지와 녹색자금 유도 목적</dd>
+            <dt>구조</dt><dd>6대 환경목표 · 100개 경제활동 (개정 후)</dd>
+            <dt>준거</dt><dd>공시 KPI는 EU 2021/2178 위임법률을 준용</dd>
+          </dl>
+        </div>
+
+        <div class="box dark">
+          <div style="font-family: var(--mono); font-size: 10.5px; letter-spacing:.12em; color: var(--muted); text-transform:uppercase; margin-bottom:8px;">적합 판정 4단계</div>
+          <ol class="criteria">
+            <li>
+              <span class="n">i.</span>
+              <div><b>활동기준</b> — 74개(현행)·100개(개정) 경제활동 범주에 부합
+                <span>충족 시 K-택소노미 적격(eligible)</span></div>
+            </li>
+            <li>
+              <span class="n">ii.</span>
+              <div><b>인정기준</b> — 6대 환경목표 중 하나 이상 실질 기여
+                <span>기술·수치 조건 (예: 100gCO₂eq/kWh 이하)</span></div>
+            </li>
+            <li>
+              <span class="n">iii.</span>
+              <div><b>배제기준</b> — 나머지 5대 환경목표에 심각한 피해 없음
+                <span>Do No Significant Harm</span></div>
+            </li>
+            <li>
+              <span class="n">iv.</span>
+              <div><b>보호기준</b> — 인권·노동·안전·반부패·문화재 법규 미위반
+                <span>4개 모두 충족 시 적합(aligned)</span></div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <!-- TIMELINE -->
+  <section>
+    <h2><span class="num">04</span> 규제·자율 대응 타임라인</h2>
+    <p class="lede">6년의 자율 유예가 끝나가는 구간. 개정·시행·공시 의무화가 2026년에 겹친다.</p>
+    <div class="timeline">
+      <div class="tl-node done">
+        <div class="date">2021 · 12</div>
+        <div class="ev">K-택소노미 가이드라인 발표 <b>환경부</b></div>
+      </div>
+      <div class="tl-node done">
+        <div class="date">2022 · —</div>
+        <div class="ev">경제활동 해설서 최초 발간 · 시범 적용</div>
+      </div>
+      <div class="tl-node done">
+        <div class="date">2023 · 08</div>
+        <div class="ev"><b>SKT 국내 최초</b> 택소노미 별도 보고서 (FY2022)</div>
+      </div>
+      <div class="tl-node done">
+        <div class="date">2024 · 08</div>
+        <div class="ev">SKT 2024 택소노미 보고서 · AI 서비스 신규 편입</div>
+      </div>
+      <div class="tl-node now">
+        <div class="date">2025 · 12</div>
+        <div class="ev"><b>개정안 발표</b> 84 → 100개 활동, 히트펌프·바이오항공유 추가</div>
+      </div>
+      <div class="tl-node">
+        <div class="date">2026 · 01</div>
+        <div class="ev">개정 K-택소노미 시행 · EU CSRD 벨류체인 요구 본격화</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLICATIONS -->
+  <section>
+    <h2><span class="num">05</span> SKT 관점의 시사점</h2>
+    <p class="lede">이미 확보한 프리무버 지위를 어떻게 데이터·범위·설득력으로 확장하느냐가 다음 12개월의 과제.</p>
+
+    <div class="implications">
+      <div class="imp">
+        <div class="idx">i.</div>
+        <h4>비적합 3건 → 데이터·인증으로 전환</h4>
+        <p>통신 인프라 냉난방(1-가-(6))과 미얀마 쿡스토브(1-나-(2))는 감축량 데이터 미확인 사유. 계측 체계와 KOICA·UNFCCC 방법론 연계로 적합 재판정 여지가 크다.</p>
+      </div>
+      <div class="imp">
+        <div class="idx">ii.</div>
+        <h4>AI 데이터센터를 CapEx 인정 축으로</h4>
+        <p>2029년부터 순차 오픈 예정인 SK그룹 15GW AI DC 로드맵은 재생에너지·에너지 효율·무공해 인프라 다중 활동에 걸친다. 개정 100개 목록의 히트펌프·저장장치가 인정 근거를 확대한다.</p>
+      </div>
+      <div class="imp">
+        <div class="idx">iii.</div>
+        <h4>개정 100개 기준 재산정 필요</h4>
+        <p>FY2024 보고서는 개정 활동 코드로 재분류돼야 한다. 특히 '전환활동' 제외 논쟁을 고려해 LNG 관련 지출은 별도 라벨링이 안전하다.</p>
+      </div>
+      <div class="imp">
+        <div class="idx">iv.</div>
+        <h4>공시 의무화 프리무버 지위 활용</h4>
+        <p>KT·LGU+가 미공개인 지금이 통신업 벤치마크를 선점할 시기. 3대 KPI + 활동별 판정근거 공개 포맷을 계속 유지·정교화해야 한다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER SOURCES -->
+  <footer class="foot">
+    <div>Sources · 2024 SK텔레콤 택소노미 보고서 · 기후에너지환경부 · 한국환경산업기술원 · 한국거래소 SRI Bond</div>
+    <ul>
+      <li><a href="https://www.sktelecom.com/img/pds/persist_biz/2024/SKT_Taxonomy_Report_KR2023_240819.pdf">SKT 2024 택소노미 보고서 (FY2023) · sktelecom.com</a></li>
+      <li><a href="https://www.hankyung.com/article/202503182843i">K-택소노미 국내 기업 대응 상황 · 한국경제</a></li>
+      <li><a href="https://www.esgeconomy.com/news/articleView.html?idxno=9378">'24년 한국형 녹색채권 5조원 이상 발행 · ESG경제</a></li>
+      <li><a href="https://skinnonews.com/archives/115691">SKIET 지속가능경영보고서 K-택소노미 반영 · SK 뉴스룸</a></li>
+      <li><a href="https://www.esgeconomy.com/news/articleView.html?idxno=13972">개정 K-택소노미 84 → 100개 확대 · ESG경제</a></li>
+    </ul>
+  </footer>
+
+</div>
+</body></html>

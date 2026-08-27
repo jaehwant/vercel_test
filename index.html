@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboards · Jaehwan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,500;9..144,1,500&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600&display=swap">
+<style>
+  :root {
+    --ground: #F7F5F0;
+    --panel: #FFFFFF;
+    --ink: #16182E;
+    --ink-2: #3E4260;
+    --muted: #6F7288;
+    --line: rgba(22, 24, 46, 0.11);
+    --line-strong: rgba(22, 24, 46, 0.22);
+    --accent-1: #2E5D42;
+    --accent-1-tint: #E5EFE4;
+    --accent-2: #252A5A;
+    --accent-2-tint: #E4E5F3;
+    --spice: #D66B2A;
+    --serif-kr: "Noto Serif KR", ui-serif, Georgia, serif;
+    --serif-en: "Fraunces", "Noto Serif KR", ui-serif, Georgia, serif;
+    --sans: "Noto Sans KR", "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14162A;
+      --panel: #1D1F38;
+      --ink: #ECEBF3;
+      --ink-2: #C5C6DA;
+      --muted: #8B8FA8;
+      --line: rgba(236, 235, 243, 0.13);
+      --line-strong: rgba(236, 235, 243, 0.26);
+      --accent-1: #7CB08C;
+      --accent-1-tint: #22322A;
+      --accent-2: #8B94D8;
+      --accent-2-tint: #29304F;
+      --spice: #E68B54;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
+  .wrap {
+    max-width: 960px;
+    width: 100%;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: ""; width: 22px; height: 1px; background: currentColor;
+  }
+  h1 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+  }
+  h1 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--spice);
+  }
+  .sub {
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 0 0 40px;
+    font-size: 14.5px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  a.card {
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    padding: 28px 28px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: transform .18s ease, border-color .18s ease;
+    min-height: 240px;
+  }
+  a.card:hover {
+    transform: translateY(-2px);
+  }
+  a.card:focus-visible {
+    outline: 2px solid var(--spice);
+    outline-offset: 3px;
+  }
+  a.card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent-1);
+  }
+  a.card.b::before { background: var(--accent-2); }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-1);
+  }
+  a.card.b .tag { color: var(--accent-2); }
+  .card h2 {
+    font-family: var(--serif-kr);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .card h2 em {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--accent-1);
+    font-weight: 500;
+  }
+  a.card.b h2 em { color: var(--accent-2); }
+  .card p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .card .open {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card .open .arrow {
+    font-family: var(--sans);
+    font-size: 16px;
+    color: var(--accent-1);
+    transition: transform .18s ease;
+  }
+  a.card.b .arrow { color: var(--accent-2); }
+  a.card:hover .arrow { transform: translateX(4px); }
+  .foot {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Deployed on Vercel</div>
+    <h1>두 개의 <em>대시보드</em></h1>
+    <p class="sub">Claude Code로 조사·설계·게시한 두 편의 한 장짜리 브리핑. 왼쪽은 정책 대응 진단, 오른쪽은 도구 큐레이션.</p>
+
+    <div class="grid">
+      <a class="card" href="/k-taxonomy.html">
+        <div class="tag">Policy · ESG</div>
+        <h2>K-택소노미 대응 지형과 <em>SK텔레콤</em>의 위치</h2>
+        <p>한국형 녹색분류체계의 개정·금융·공시 세 축을 정리하고, 국내 최초로 별도 택소노미 보고서를 낸 SKT의 FY2023 실적을 기준선으로 진단.</p>
+        <div class="open"><span>Open dashboard</span><span class="arrow">→</span></div>
+      </a>
+      <a class="card b" href="/skills.html">
+        <div class="tag">Tooling · Claude Skills</div>
+        <h2>인기 <em>Claude Skills</em>와 그 스킬들이 이기는 이유</h2>
+        <p>2026년 커뮤니티가 실제로 채택한 상위 스킬을 사용 규모·주간 절감 시간·문제 해결력의 세 축으로 큐레이션한 한 장.</p>
+        <div class="open"><span>Open dashboard</span><span class="arrow">→</span></div>
+      </a>
+    </div>
+
+    <div class="foot">
+      <span>© 2026 · Jaehwan Park</span>
+      <span>Built with Claude Code · Deployed on Vercel</span>
+    </div>
+  </div>
+</body>
+</html>
