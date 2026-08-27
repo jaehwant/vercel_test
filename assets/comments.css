@@ -1,0 +1,157 @@
+/* comments.css — 두 대시보드 팔레트(CSS 변수)를 그대로 상속해 붙는다 */
+.cm {
+  margin: 44px 0 12px;
+}
+.cm h2 {
+  font-family: var(--serif-kr);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.cm h2 .num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 500;
+}
+.cm .lede {
+  color: var(--muted);
+  margin: 0 0 20px;
+  font-size: 13.5px;
+  max-width: 60ch;
+}
+
+.cm-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px dashed var(--line-strong);
+  background: var(--panel-warm, var(--panel-2, var(--panel)));
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  margin-bottom: 18px;
+}
+.cm-banner b { color: var(--ink); font-weight: 500; }
+.cm-banner .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+.cm-banner.mode-cloud .dot { background: var(--accent); }
+.cm-banner.mode-local .dot { background: #C08135; }
+
+.cm-form {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  padding: 14px;
+  align-items: start;
+}
+.cm-form input,
+.cm-form textarea {
+  width: 100%;
+  background: var(--panel-warm, var(--panel-2, var(--panel)));
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 42px;
+}
+.cm-form textarea { min-height: 68px; }
+.cm-form input:focus,
+.cm-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.cm-form button {
+  padding: 12px 20px;
+  background: var(--accent);
+  color: var(--panel);
+  border: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: stretch;
+  transition: opacity .15s ease;
+}
+.cm-form button:hover { opacity: 0.88; }
+.cm-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+.cm-status {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin: 8px 0 0;
+  min-height: 16px;
+}
+.cm-status.ok   { color: var(--accent); }
+.cm-status.err  { color: #A64637; }
+.cm-status.busy { color: var(--muted); }
+
+.cm-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  display: grid;
+  gap: 10px;
+}
+.cm-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+  border-left: 2px solid var(--accent);
+}
+.cm-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.cm-meta b {
+  color: var(--ink);
+  font-weight: 500;
+  font-family: var(--sans);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12.5px;
+  margin-right: 8px;
+}
+.cm-body {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.cm-empty {
+  padding: 22px;
+  border: 1px dashed var(--line-strong);
+  background: transparent;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .cm-form {
+    grid-template-columns: 1fr;
+  }
+  .cm-form button { width: 100%; }
+}

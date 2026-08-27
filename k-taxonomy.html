@@ -642,7 +642,9 @@
     .masthead { grid-template-columns: 1fr; }
     .stamp { text-align: left; white-space: normal; }
   }
-</style></head><body><div class="page">
+</style>
+<link rel="stylesheet" href="/assets/comments.css">
+</head><body><div class="page">
 
   <!-- MASTHEAD -->
   <header class="masthead">
@@ -977,6 +979,22 @@
       <li><a href="https://www.esgeconomy.com/news/articleView.html?idxno=13972">개정 K-택소노미 84 → 100개 확대 · ESG경제</a></li>
     </ul>
   </footer>
+
+  <section class="cm" data-comments-mount data-page-id="k-taxonomy">
+    <h2><span class="num">05</span> 이 대시보드에 대한 의견</h2>
+    <p class="lede">보완할 수치·시각·관점이 있으면 남겨주세요. 이름은 선택입니다.</p>
+    <div class="cm-banner"><span class="dot"></span><b>모드 확인 중…</b></div>
+    <form class="cm-form" autocomplete="off">
+      <input type="text" name="author" placeholder="이름 (선택)" maxlength="40">
+      <textarea name="body" placeholder="의견을 남겨주세요 (최대 1000자)" maxlength="1000" required></textarea>
+      <button type="submit">등록</button>
+    </form>
+    <p class="cm-status" role="status" aria-live="polite"></p>
+    <ul class="cm-list"></ul>
+  </section>
+  <script src="/assets/config.js"></script>
+  <script src="/assets/comments.js" defer></script>
+
 
 </div>
 </body></html>
